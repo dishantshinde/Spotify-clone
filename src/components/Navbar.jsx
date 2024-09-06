@@ -1,16 +1,30 @@
 import React, { useState } from "react";
 import { assets } from "../assets/assets";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { PlayerContext } from "./../context/Playercontext";
 import ErrorMessage from "./error";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import app from "../firebase";
+import { current } from "@reduxjs/toolkit";
+const auth = getAuth(app);
 const Navbar = ({ isSearchBarVisible, onSearch }) => {
   const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const { error } = useContext(PlayerContext);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  useEffect(() => {
+    onAuthStateChanged(auth, (current) => {
+      if (current) {
+        setUser(current);
+      } else {
+        setUser(null);
+      }
+    });
+  });
 
   const handleInputChange = () => {
     onSearch(query);
@@ -70,16 +84,54 @@ const Navbar = ({ isSearchBarVisible, onSearch }) => {
 
           {/* Sign Up and Log In Buttons */}
           <div className="flex items-center gap-4 lg:gap-6 pr-4 lg:pr-16">
-            <Link to="/signup" className="hidden sm:block">
-              <p className="bg-black text-white font-bold hover:bg-green-400 hover:text-black py-1 px-3 rounded-full text-sm sm:text-base">
-                Sign up
-              </p>
-            </Link>
-            <Link to="/login" className="hidden sm:block">
-              <p className="bg-white text-black font-bold hover:bg-green-400 text-sm sm:text-base px-4 sm:px-6 py-2 rounded-2xl">
-                Log in
-              </p>
-            </Link>
+            {user && location.pathname !== "/" ? (
+              <>
+                {/* Display when user is authenticated (true) */}
+                <Link
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevent the default navigation behavior of Link
+                    window.open(
+                      "https://www.spotify.com/de-en/download/windows/",
+                      "_blank"
+                    ); // Open the URL in a new tab
+                  }}
+                  className="hidden sm:block"
+                >
+                  <p className="bg-black text-white font-bold hover:bg-green-400 hover:text-black py-1 px-3 rounded-full text-sm sm:text-base">
+                    Install App
+                  </p>
+                </Link>
+                <Link
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevent the default navigation behavior of Link
+                    window.open(
+                      "https://www.spotify.com/in-en/premium/",
+                      "_blank"
+                    ); // Open the URL in a new tab
+                  }}
+                  className="hidden sm:block"
+                >
+                  <p className="bg-white text-black font-bold hover:bg-green-400 text-sm sm:text-base px-4 sm:px-6 py-2 rounded-2xl">
+                    Explore Premium
+                  </p>
+                </Link>
+              </>
+            ) : (
+              <>
+                {/* Display when user is not authenticated (false) */}
+                <Link to="/signup" className="hidden sm:block">
+                  <p className="bg-black text-white font-bold hover:bg-green-400 hover:text-black py-1 px-3 rounded-full text-sm sm:text-base">
+                    Sign up
+                  </p>
+                </Link>
+                <Link to="/login" className="hidden sm:block">
+                  <p className="bg-white text-black font-bold hover:bg-green-400 text-sm sm:text-base px-4 sm:px-6 py-2 rounded-2xl">
+                    Log in
+                  </p>
+                </Link>
+              </>
+            )}
+
             {/* Mobile Menu Button */}
             <div>
               <div className="block sm:hidden relative flex">

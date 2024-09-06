@@ -2,7 +2,7 @@ import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 const headersObj = {
   headers: {
-    "X-RapidAPI-Key": "9971547c0bmsh6345db9e03934eep1662fejsnf3f2ab8b4620",
+    "X-RapidAPI-Key": "0411790049mshb4bce9526db2fd5p188648jsn49bdc186ba62",
     "X-RapidAPI-Host": "spotify23.p.rapidapi.com",
   },
 };

@@ -1,6 +1,5 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
-
 const firebaseConfig = {
   apiKey: "AIzaSyBoE1Ohkh7WdFNHn-Rp4FhDyxFsatK2KxI",
   authDomain: "spotify-authentication-f8fc3.firebaseapp.com",

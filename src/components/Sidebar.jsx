@@ -1,8 +1,20 @@
-import React from 'react';
-import { assets } from '../assets/assets';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { assets } from "../assets/assets";
+import { Link, useNavigate } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import app from "../firebase";
+import { current } from "@reduxjs/toolkit";
+import { useState } from "react";
 
 const Sidebar = ({ onSearchClick }) => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState();
+  const auth = getAuth(app);
+  onAuthStateChanged(auth, (current) => {
+    if (current) {
+      setUser(current);
+    }
+  });
   return (
     <div className="w-full lg:w-[25%] p-2 h-full text-white flex-col gap-2 hidden lg:flex">
       <div className="h-[28%] bg-[#121212] flex flex-col justify-around rounded">
@@ -16,7 +28,10 @@ const Sidebar = ({ onSearchClick }) => {
             <p className="font-bold">Home</p>
           </div>
         </Link>
-        <div className="flex items-center cursor-pointer gap-5 pl-8" onClick={onSearchClick}>
+        <div
+          className="flex items-center cursor-pointer gap-5 pl-8"
+          onClick={onSearchClick}
+        >
           <img className="w-6" src={assets.search_icon} alt="Search" />
           <p className="font-bold">Search</p>
         </div>
@@ -28,18 +43,40 @@ const Sidebar = ({ onSearchClick }) => {
             <p className="font-semibold">Your library</p>
           </div>
           <div className="flex items-center gap-3">
-            <img className="w-5 cursor-pointer" src={assets.plus_icon} alt="Add" />
+            <img
+              className="w-5 cursor-pointer"
+              src={assets.plus_icon}
+              alt="Add"
+            />
           </div>
         </div>
         <div className="bg-[#242424] p-4 m-2 rounded font-semibold flex flex-col items-start justify-start">
           <h1>Create your first playlist</h1>
           <p className="font-light">It's easy we'll help you</p>
-          <button className="bg-white text-[15px] text-black border rounded-full mt-4 px-1.5 py-1">Create Playlist</button>
+          <button
+            onClick={() => {
+              if (!user) {
+                navigate("/login");
+              }
+            }}
+            className="bg-white text-[15px] text-black border rounded-full mt-4 px-1.5 py-1"
+          >
+            Create Playlist
+          </button>
         </div>
         <div className="bg-[#242424] p-4 m-2 rounded font-semibold flex flex-col items-start justify-start">
           <h1>Let's find some podcasts to follow</h1>
           <p className="font-light">We'll keep you updated to new episodes</p>
-          <button className="bg-white text-[15px] text-black border rounded-full mt-4 px-2 py-1">Browse podcasts</button>
+          <button
+            onClick={() => {
+              if (!user) {
+                navigate("/login");
+              }
+            }}
+            className="bg-white text-[15px] text-black border rounded-full mt-4 px-2 py-1"
+          >
+            Browse podcasts
+          </button>
         </div>
       </div>
     </div>
