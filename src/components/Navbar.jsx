@@ -12,9 +12,8 @@ const Navbar = ({ isSearchBarVisible, onSearch }) => {
   const { error } = useContext(PlayerContext);
   const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
-    setQuery(e.target.value);
-    onSearch(e.target.value);
+  const handleInputChange = () => {
+    onSearch(query);
   };
 
   const toggleMenu = () => {
@@ -28,7 +27,7 @@ const Navbar = ({ isSearchBarVisible, onSearch }) => {
           {/* Navigation Arrows */}
           <div className="flex gap-2 items-center">
             <img
-              onClick={() => navigate(-1)}
+              onClick={() => navigate("/dashboard")}
               className="w-8 bg-black p-2 rounded-2xl cursor-pointer"
               src={assets.arrow_left}
               alt="Back"
@@ -48,12 +47,17 @@ const Navbar = ({ isSearchBarVisible, onSearch }) => {
                 <input
                   type="text"
                   value={query}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                  }}
                   className="w-full bg-[#242424] pl-14 pr-4 py-2.5 border-[#242424] text-white rounded-full focus:ring-2 focus:ring-white focus:border-transparent"
                   placeholder="What do you want to play?"
                   autoFocus
                 />
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                <div
+                  onClick={handleInputChange}
+                  className="absolute inset-y-0 left-0 flex items-center pl-3"
+                >
                   <img
                     className="h-6 w-6 text-gray-600 cursor-pointer"
                     src={assets.search_icon}
@@ -96,7 +100,7 @@ const Navbar = ({ isSearchBarVisible, onSearch }) => {
 
                 {/* Dropdown Menu */}
                 {menuOpen && (
-                  <div className="absolute z-50 right-0 mt-2 w-48 bg-[#242424] rounded-lg shadow-lg">
+                  <div className="absolute z-50 top-6 right-2 mt-2 w-48 bg-[#242424] rounded-lg shadow-lg">
                     <Link
                       to="/signup"
                       className="block px-4 py-2 text-white hover:bg-[#121212] rounded-t-lg"
@@ -129,11 +133,16 @@ const Navbar = ({ isSearchBarVisible, onSearch }) => {
             <input
               type="text"
               value={query}
-              onChange={handleInputChange}
+              onChange={(e) => {
+                setQuery(e.target.value);
+              }}
               className="w-full bg-[#242424] pl-14 pr-4 py-2 border-[#242424] text-white rounded-full focus:ring-2 focus:ring-white focus:border-transparent"
               placeholder="Search"
             />
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+            <div
+              onClick={handleInputChange}
+              className="absolute inset-y-0 left-0 flex items-center pl-3"
+            >
               <img
                 className="h-6 w-6 text-gray-600 cursor-pointer"
                 src={assets.search_icon}

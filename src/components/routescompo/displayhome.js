@@ -11,7 +11,7 @@ import { useLocation, useOutletContext } from "react-router";
 export default function Displayhome() {
   // Use default values to avoid null errors
   const artistData = useSelector((state) => state.artistData.artists || []);
-  const { displayRef } = useOutletContext();
+  const { displayRef, isSearchBarVisible, onSearch } = useOutletContext();
   const location = useLocation();
   const PlaylistData = useSelector(
     (state) => state.playlistData.playlistsData || []
@@ -22,8 +22,8 @@ export default function Displayhome() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchArtists());
-    // dispatch(fetchfeaturedPlaylists());
-    // dispatch(fetchSingles());
+    dispatch(fetchfeaturedPlaylists());
+    dispatch(fetchSingles());
   }, [dispatch]);
   useEffect(() => {
     if (displayRef.current) {
@@ -35,7 +35,7 @@ export default function Displayhome() {
   }, [location.pathname]);
   return (
     <>
-      <Navbar />
+      <Navbar isSearchBarVisible={isSearchBarVisible} onSearch={onSearch} />
       <div className="mb-4">
         <h1 className="my-5 font-bold text-2xl">Featured Charts</h1>
         <div className="flex overflow-auto">
@@ -58,7 +58,7 @@ export default function Displayhome() {
       </div>
       <div className="mb-4">
         <h1 className="my-5 font-bold text-2xl">Popular Artists</h1>
-        <div className="flex overflow-auto">
+        <div className="flex overflow-x-auto">
           {artistData.length > 0 ? (
             artistData.map((item, indx) => (
               <CardItem
@@ -88,6 +88,7 @@ export default function Displayhome() {
                 id={item.id} // Assuming this should be changed to item.id if single ID is available
                 image={item.albumOfTrack.url}
                 type="single" // Assuming you have a 'single' type
+                singlesData={Singles.tracks.items}
               />
             ))
           ) : (

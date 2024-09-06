@@ -1,29 +1,25 @@
 import React, { useContext, useEffect } from "react";
-import { useOutletContext, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { assets } from "../assets/assets";
 import { useDispatch, useSelector } from "react-redux";
 import { PlayerContext } from "./../context/Playercontext";
 import ColorThief from "colorthief";
 import Navbar from "../components/Navbar";
 
-export default function DisplaySingle() {
-  const { handlePlayWithId, setSongsList } = useContext(PlayerContext);
+export default function DisplaySingle({ displayRef }) {
+  const { handlePlayWithId, setSongsList, singleData } =
+    useContext(PlayerContext);
   const { id } = useParams(); // Fetching single album by ID
-  const dispatch = useDispatch();
-  const { displayRef } = useOutletContext();
 
   // Fetch the single album data from the Redux store
-  const singleAlbumData = useSelector((state) => state.SinglesData.singles);
-  console.log("single album data", singleAlbumData);
-  const singleObj = singleAlbumData?.tracks.items.find(
-    (single) => single.id === id
-  );
+  console.log("single album data", singleData);
+  const singleObj = singleData?.find((single) => single.id === id);
 
   useEffect(() => {
-    if (singleAlbumData && singleAlbumData.tracks) {
+    if (singleData && singleData.tracks) {
       setSongsList([]); // Ensure tracks is an array
     }
-  }, [singleAlbumData, setSongsList]);
+  }, [singleData, setSongsList]);
 
   useEffect(() => {
     if (singleObj && singleObj.albumOfTrack?.url) {
@@ -45,7 +41,7 @@ export default function DisplaySingle() {
         }
       };
     }
-  }, [singleAlbumData, displayRef]);
+  }, [singleData, displayRef]);
 
   return (
     <>

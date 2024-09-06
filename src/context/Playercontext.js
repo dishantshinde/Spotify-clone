@@ -15,6 +15,7 @@ export default function PlayerContextProvider(props) {
   const [playStat, setPlayStat] = useState(false);
   const [songsList, setSongsList] = useState([]);
   const [error, setError] = useState("");
+  const [singleData, setSingleData] = useState();
   const trackData = useSelector((state) => state.albumsData.trackData);
   const [time, setTime] = useState({
     currentTime: {
@@ -222,6 +223,8 @@ export default function PlayerContextProvider(props) {
     volumeBar,
     handleVolume,
     error,
+    singleData,
+    setSingleData
   };
   return (
     <PlayerContext.Provider value={contextValue}>

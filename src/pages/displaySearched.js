@@ -4,16 +4,16 @@ import CardItem from "../components/CardItem";
 import { fetchSearched } from "../features/getSearched/getSearchedApi";
 import { useOutletContext, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
-export default function DisplaySearched({ searchQuery }) {
+export default function DisplaySearched() {
   const dispatch = useDispatch();
 
   // Fetch searched data when the component mounts or searchQuery changes
   const { query } = useParams();
   useEffect(() => {
-    if (searchQuery) {
-      dispatch(fetchSearched(searchQuery));
+    if (query) {
+      dispatch(fetchSearched(query));
     }
-  }, [dispatch, searchQuery]);
+  }, [dispatch, query]);
 
   const { displayRef } = useOutletContext();
 
@@ -96,10 +96,11 @@ export default function DisplaySearched({ searchQuery }) {
               <CardItem
                 key={indx}
                 name={item.name}
-                desc="Track"
+                desc="Single"
                 id={item.id}
                 image={item.albumOfTrack.url} // Assuming this property exists in tracks
-                type="track"
+                type="single"
+                singlesData={tracksData}
               />
             ))
           ) : (

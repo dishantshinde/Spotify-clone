@@ -97,7 +97,10 @@ export default function DisplayArtist() {
           </p>
         </div>
       </div>
-      <div className="grid grid-cols-3 sm:grid-cols-[repeat(auto-fit,minmax(0,1fr))] mt-10 mb-4 pl-2 text-[#a7a7a7]">
+      <div
+        className="grid grid-cols-3 sm:grid-cols-[repeat(auto-fit,minmax(0,1fr))] mt-10 mb-4 pl-2 text-[#a7a7a7]"
+        style={{ gridTemplateColumns: "2fr 1fr 1fr" }}
+      >
         <p>
           <b className="mr-4">#</b>
           Title
@@ -114,6 +117,7 @@ export default function DisplayArtist() {
               item.trackid === track.id && "bg-[#ffffff2b]"
             }`}
             key={indx}
+            style={{ gridTemplateColumns: "2fr 1fr 1fr" }}
           >
             <p
               className={`text-white text-[13px] ${

@@ -15,9 +15,8 @@ export default function DisplayAlbum() {
   const { displayRef } = useOutletContext();
 
   // Fetch the album data from the Redux store
-  console.log("id for album ", id);
   const albumData = useSelector((state) => state.albumsData.albumsData);
-  console.log("album data is ", albumData);
+  console.log("albums object", albumData);
 
   useEffect(() => {
     // Fetch the album data when the component mounts or when the `id` changes
@@ -98,7 +97,10 @@ export default function DisplayAlbum() {
           </p>
         </div>
       </div>
-      <div className="grid grid-cols-3 sm:grid-cols-[repeat(auto-fit,minmax(0,1fr))] mt-10 mb-4 pl-2 text-[#a7a7a7]">
+      <div
+        className="grid grid-cols-4 sm:grid-cols-[repeat(auto-fit,minmax(0,1fr))] mt-10 mb-4 pl-2 text-[#a7a7a7]"
+        style={{ gridTemplateColumns: "2fr 1fr 1fr 1fr" }}
+      >
         <p>
           <b className="mr-4">#</b>
           Title
@@ -108,14 +110,15 @@ export default function DisplayAlbum() {
         <img className="m-auto w-4" src={assets.clock_icon} alt="Clock icon" />
       </div>
       <hr />
-      {albumData.tracks.length ? (
+      {albumData.tracks && albumData.tracks.length ? (
         albumData.tracks.map((item, indx) => (
           <div
             onClick={() => handlePlayWithId(item.id)}
-            className={`grid grid-cols-3 gap-2 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer ${
+            className={`grid grid-cols-4 gap-2 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer ${
               item.id === track.id ? "bg-[#ffffff2b]" : ""
             }`}
-            key={item.id} // Use item.id as key instead of indx
+            key={item.id}
+            style={{ gridTemplateColumns: "2fr 1fr 1fr 1fr" }} // Use item.id as key instead of indx
           >
             <p
               className={`text-white text-[13px] ${
@@ -135,7 +138,9 @@ export default function DisplayAlbum() {
               {item.name}
             </p>
             <p className="text-[12px]">{albumData.name}</p>
-            <p className="text-[12px] hidden sm:block">{albumData.date}</p>
+            <p className="text-[12px] hidden sm:block">
+              {albumData.releaseDate}
+            </p>
             <p className="text-[12px] text-center">
               {`${(item.duration_ms / 60000).toFixed(1)} min`}
             </p>

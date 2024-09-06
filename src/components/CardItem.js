@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-export default function CardItem({ image, name, desc, id, type }) {
+import { PlayerContext } from "../context/Playercontext";
+export default function CardItem({
+  image,
+  name,
+  desc,
+  id,
+  type,
+  singlesData = null,
+}) {
   const navigate = useNavigate();
+  const { setSingleData } = useContext(PlayerContext);
   return (
     <div
       onClick={() => {
-        const navigateTo = `card/${type}/${id}`;
+        if (type === "single") {
+          setSingleData(singlesData);
+        }
+        const navigateTo = `/dashboard/card/${type}/${id}`;
         console.log("Navigating to:", navigateTo); // Log the navigation path
         navigate(navigateTo, { replace: true });
       }}
