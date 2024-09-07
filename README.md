@@ -44,7 +44,7 @@ $ npm install
 
 ## Deployment Link
 
-https.........
+[https.........](https://spotify-clone-oeqr.onrender.com)
 
 ## Authors
 
