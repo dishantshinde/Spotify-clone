@@ -1,8 +1,9 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+const apiKey = process.env.REACT_APP_API_KEY;
 const headersObj = {
   headers: {
-    "X-RapidAPI-Key": "0411790049mshb4bce9526db2fd5p188648jsn49bdc186ba62",
+    "X-RapidAPI-Key": `${apiKey}`,
     "X-RapidAPI-Host": "spotify23.p.rapidapi.com",
   },
 };

@@ -5,13 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { PlayerContext } from "./../context/Playercontext";
 import ColorThief from "colorthief";
 import Navbar from "../components/Navbar";
+import { useOutletContext } from "react-router-dom";
 
-export default function DisplaySingle({ displayRef }) {
+export default function DisplaySingle() {
   const { handlePlayWithId, setSongsList, singleData } =
     useContext(PlayerContext);
   const { id } = useParams(); // Fetching single album by ID
-
   // Fetch the single album data from the Redux store
+  const { displayRef } = useOutletContext();
+
   console.log("single album data", singleData);
   const singleObj = singleData?.find((single) => single.id === id);
 
@@ -34,7 +36,7 @@ export default function DisplaySingle({ displayRef }) {
           const dominantColor = `rgb(${r}, ${g}, ${b})`;
 
           if (displayRef.current) {
-            displayRef.current.style.background = `linear-gradient(to bottom, ${dominantColor} 0%, #121212 70%)`;
+            displayRef.current.style.background = `linear-gradient(to bottom, ${dominantColor} 0%, #121212 60%)`;
           }
         } catch (error) {
           console.error("Error extracting color:", error);

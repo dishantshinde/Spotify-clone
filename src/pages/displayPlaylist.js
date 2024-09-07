@@ -48,7 +48,7 @@ export default function DisplayPlaylist() {
           const dominantColor = `rgb(${r}, ${g}, ${b})`;
 
           if (displayRef.current) {
-            displayRef.current.style.background = `linear-gradient(to bottom, ${dominantColor} 0%, #121212 20%)`;
+            displayRef.current.style.background = `linear-gradient(to bottom, ${dominantColor} 0%, #121212 60%)`;
           }
         } catch (error) {
           console.error("Error extracting color:", error);
